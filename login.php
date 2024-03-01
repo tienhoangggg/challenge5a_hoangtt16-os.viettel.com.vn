@@ -25,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, JWT_key, true);
         $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
         $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
-        setcookie('jwt', $jwt, time() + SESSION_TIMEOUT, '/');
+        //chỉ sử dụng khi giao thức là https
+        setcookie('jwt', $jwt, 0, '/', '', true, true);
         // Chuyển hướng về trang chủ
         header("Location: index.php");
         exit();
