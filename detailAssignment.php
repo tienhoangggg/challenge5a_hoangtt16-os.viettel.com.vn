@@ -15,14 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo "Assignment not found";
         exit();
     }
-    echo "<h3> Title: " . $assignment['title'] . "</h3>";
-    echo "<p> Teacher: " . $assignment['poster'] . "</p>";
-    echo "<p> Description: " . $assignment['description'] . "</p>";
+    echo "<h3> Title: " . htmlspecialchars($assignment['title']) . "</h3>";
+    echo "<p> Teacher: " . htmlspecialchars($assignment['poster']) . "</p>";
+    echo "<p> Description: " . htmlspecialchars($assignment['description']) . "</p>";
     echo "<a href='". STORAGE_DIR . $assignment['file'] . "'>Download</a><br>------------------------<br>";
     //show all submissions
     $submissions = get_all_submissions($curUser['id'], $id);
     foreach ($submissions as $submission) {
-        echo "<p> Student: " . $submission['poster'] . "</p>";
+        echo "<p> Student: " . htmlspecialchars($submission['poster']) . "</p>";
         echo "<a href='". STORAGE_DIR . $submission['file'] . "'>Download</a>";
         echo "<p> Created at: " . $submission['created_at'] . "</p>------------------------<br>";
     }

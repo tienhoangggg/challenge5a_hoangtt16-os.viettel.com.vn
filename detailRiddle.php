@@ -10,15 +10,15 @@ if ($curUser === null) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $riddles = get_riddle_detail($_GET['id']);
     echo "<a href='riddle.php'>Back</a><br>";
-    echo "<h3> Title: " . $riddles['title'] . "</h3>";
-    echo "<p> teacher: " . $riddles['poster'] . "</p>";
-    echo "<p> Description: " . $riddles['description'] . "</p>";
+    echo "<h3> Title: " . htmlspecialchars($riddles['title']) . "</h3>";
+    echo "<p> teacher: " . htmlspecialchars($riddles['poster']) . "</p>";
+    echo "<p> Description: " . htmlspecialchars($riddles['description']) . "</p>";
     //form to upload submission
     if ($curUser['role'] === "student") {
         echo "<form action='detailRiddle.php' method='post' enctype='multipart/form-data'>";
         echo "<input type='hidden' name='id' value='" . $_GET['id'] . "'>";
-        echo "<input type='hidden' name='teacher' placeholder='teacher' value='" . $riddles['teacher'] . "'>";
-        echo "<input type='hidden' name='title' placeholder='title' value='" . $riddles['title'] . "'>";
+        echo "<input type='hidden' name='teacher' placeholder='teacher' value='" . htmlspecialchars($riddles['teacher']) . "'>";
+        echo "<input type='hidden' name='title' placeholder='title' value='" . htmlspecialchars($riddles['title']) . "'>";
         echo "<input type='text' name='fileName' placeholder='fileName'>";
         echo "<button type='submit' name='submit'>Send</button>";
         echo "</form>";

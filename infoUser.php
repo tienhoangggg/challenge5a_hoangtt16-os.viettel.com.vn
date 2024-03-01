@@ -15,11 +15,11 @@ if ($user === null) {
 echo "<a href='index.php'>Back</a><br>";
 
 //hiển thị thông tin user
-echo "Role: " . $user['role'] . "<br>";
-echo "Username: " . $user['username'] . "<br>";
-echo "Name: " . $user['name'] . "<br>";
-echo "Email: " . $user['email'] . "<br>";
-echo "Phone: " . $user['phone'] . "<br>";
+echo "Role: " . htmlspecialchars($user['role']) . "<br>";
+echo "Username: " . htmlspecialchars($user['username']) . "<br>";
+echo "Name: " . htmlspecialchars($user['name']) . "<br>";
+echo "Email: " . htmlspecialchars($user['email']) . "<br>";
+echo "Phone: " . htmlspecialchars($user['phone']) . "<br>";
 echo "Avatar: <img src='" . $user['avatar'] . "'><br>";
 // button to GET chatBox
 echo "<a href='chatBox.php?id=" . $_GET['id'] . "'>Chat</a><br>";

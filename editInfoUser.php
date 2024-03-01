@@ -26,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "Empty field if you don't want to change<br>";
     echo "New Username: <input type='text' name='username'><br>";
     echo "Name: <input type='text' name='name'><br>";
-    echo "Email: <input type='text' name='email' value='" . $user['email'] . "'><br>";
-    echo "Phone: <input type='text' name='phone' value='" . $user['phone'] . "'><br>";
+    echo "Email: <input type='text' name='email' value='" . htmlspecialchars($user['email']) . "'><br>";
+    echo "Phone: <input type='text' name='phone' value='" . htmlspecialchars($user['phone']) . "'><br>";
     echo "New Password: <input type='password' name='password'><br>";
     echo "Avatar: <input type='file' name='avatar' accept='image/*'><br>";
     echo "<input type='submit' value='Submit'>";

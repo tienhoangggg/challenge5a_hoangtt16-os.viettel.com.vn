@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo "<input type='hidden' name='isEdit' value='true'>";
             echo "<input type='hidden' name='id' value='" . $msg['id'] . "'>";
             echo "<input type='hidden' name='id_user' value='" . $_GET['id'] . "'>";
-            echo "<input type='text' name='message' value='" . $msg['message'] . "'>";
+            echo "<input type='text' name='message' value='" . htmlspecialchars($msg['message']) . "'>";
             echo "<input type='submit' value='Edit'>";
             echo "</form>";
         }
         else
         {
-            echo $msg['message'] . "<br>";
+            echo htmlspecialchars($msg['message']) . "<br>";
         }
         //button to delete message
         if ($msg['sender'] === $curUser['id']) {

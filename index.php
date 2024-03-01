@@ -13,8 +13,8 @@ echo "<a href='assignment.php'>Assignment</a><br>------------------------<br>";
 echo "<a href='riddle.php'>Riddle</a><br>------------------------<br>";
 $users = get_all_users();
 foreach ($users as $user) {
-    echo "Role: " . $user['role'] . "<br>";
-    echo "Username: " . $user['username'] . "<br>";
+    echo "Role: " . htmlspecialchars($user['role']) . "<br>";
+    echo "Username: " . htmlspecialchars($user['username']) . "<br>";
     //button to GET infoUser
     echo "<a href='infoUser.php?id=" . $user['id'] . "'>Info</a><br>";
     echo "---<br>";

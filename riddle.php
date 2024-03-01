@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $riddles = get_all_riddles();
     echo "<a href='index.php'>Back</a><br>";
     foreach ($riddles as $riddle) {
-        echo "<h3> Title: " . $riddle['title'] . "</h3>";
-        echo "<p> teacher: " . $riddle['poster'] . "</p>";
+        echo "<h3> Title: " . htmlspecialchars($riddle['title']) . "</h3>";
+        echo "<p> teacher: " . htmlspecialchars($riddle['poster']) . "</p>";
         echo "<a href='detailRiddle.php?id=" . $riddle['id'] . "'>Detail</a><br>";
         echo "------------------------<br>";
     }

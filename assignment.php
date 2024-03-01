@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     //button to go back to index
     echo "<a href='index.php'>Back</a><br>";
     foreach ($assignments as $assignment) {
-        echo "<h3> Title: " . $assignment['title'] . "</h3>";
-        echo "<p> Teacher: " . $assignment['poster'] . "</p>";
+        echo "<h3> Title: " . htmlspecialchars($assignment['title']) . "</h3>";
+        echo "<p> Teacher: " . htmlspecialchars($assignment['poster']) . "</p>";
         echo "<a href='detailAssignment.php?id=" . $assignment['id'] . "'>Detail</a><br>";
         echo "------------------------<br>";
     }
