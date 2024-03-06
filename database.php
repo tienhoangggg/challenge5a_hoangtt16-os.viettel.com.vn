@@ -229,12 +229,12 @@ function get_assignment_detail($id) {
 // function get all submissions
 function get_all_submissions($id_user, $assignment_id) {
     global $conn;
-    $sql = $conn->prepare("SELECT (SELECT username FROM users WHERE users.id = student) AS poster, file, created_at FROM submissions WHERE assignment_id = ?");
     if (get_role($id_user) != "teacher") {
-        $sql .= " AND student = ?";
+        $sql = $conn->prepare("SELECT (SELECT username FROM users WHERE users.id = student) AS poster, file, created_at FROM submissions WHERE assignment_id = ? AND student = ?");
         $sql->bind_param("ii", $assignment_id, $id_user);
     }
     else {
+        $sql = $conn->prepare("SELECT (SELECT username FROM users WHERE users.id = student) AS poster, file, created_at FROM submissions WHERE assignment_id = ?");
         $sql->bind_param("i", $assignment_id);
     }
     $sql->execute();

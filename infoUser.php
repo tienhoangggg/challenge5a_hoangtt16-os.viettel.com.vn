@@ -20,7 +20,14 @@ echo "Username: " . htmlspecialchars($user['username']) . "<br>";
 echo "Name: " . htmlspecialchars($user['name']) . "<br>";
 echo "Email: " . htmlspecialchars($user['email']) . "<br>";
 echo "Phone: " . htmlspecialchars($user['phone']) . "<br>";
-echo "Avatar: <img src='" . $user['avatar'] . "'><br>";
+// echo "Avatar: <img src='" . $user['avatar'] . "'><br>";
+//get data from avatar and display it
+$avatar = $user['avatar'];
+if ($avatar !== null) {
+    $data = file_get_contents($avatar);
+    $base64 = 'data:image/' . pathinfo($avatar, PATHINFO_EXTENSION) . ';base64,' . base64_encode($data);
+    echo "<img src='" . $base64 . "'><br>";
+}
 // button to GET chatBox
 echo "<a href='chatBox.php?id=" . $_GET['id'] . "'>Chat</a><br>";
 echo "---<br>";

@@ -10,29 +10,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     $id = $_GET['id'];
     $assignment = get_assignment_detail($id);
-    echo "<a href='assignment.php'>Back</a><br>";
     if ($assignment === null) {
         echo "Assignment not found";
         exit();
     }
-    echo "<h3> Title: " . htmlspecialchars($assignment['title']) . "</h3>";
-    echo "<p> Teacher: " . htmlspecialchars($assignment['poster']) . "</p>";
-    echo "<p> Description: " . htmlspecialchars($assignment['description']) . "</p>";
-    echo "<a href='". STORAGE_DIR . $assignment['file'] . "'>Download</a><br>------------------------<br>";
+    $jwt = createJWT(array("id" => $assignment['file'], "time" => time()));
+    setcookie('jwt_' . str_replace('.', '_', $assignment['file']), $jwt, time() + 3600, '/download.php', '', true, true);
+    $body = "<a href='assignment.php'>Back</a><br>";
+    $body = $body . "<h3> Title: " . htmlspecialchars($assignment['title']) . "</h3>";
+    $body = $body . "<p> Teacher: " . htmlspecialchars($assignment['poster']) . "</p>";
+    $body = $body . "<p> Description: " . htmlspecialchars($assignment['description']) . "</p>";
+    $body = $body . "<a href='". "download.php?id=" . $assignment['file'] . "'>Download</a><br>------------------------<br>";
     //show all submissions
     $submissions = get_all_submissions($curUser['id'], $id);
     foreach ($submissions as $submission) {
-        echo "<p> Student: " . htmlspecialchars($submission['poster']) . "</p>";
-        echo "<a href='". STORAGE_DIR . $submission['file'] . "'>Download</a>";
-        echo "<p> Created at: " . $submission['created_at'] . "</p>------------------------<br>";
+        $body = $body . "<p> Student: " . htmlspecialchars($submission['poster']) . "</p>";
+        //create a cookie with jwt to verify that user has permission to download the file
+        $jwt = createJWT(array("id" => $submission['file'], "time" => time()));
+        setcookie('jwt_' . str_replace('.', '_', $submission['file']), $jwt, time() + 3600, "/download.php", "", true, true);
+        $body = $body . "<a href='". "download.php?id=" . $submission['file'] . "'>Download</a>";
+        $body = $body . "<p> Created at: " . $submission['created_at'] . "</p>------------------------<br>";
     }
     if ($curUser['role'] === "student") {
-        echo "<form action='detailAssignment.php' method='post' enctype='multipart/form-data'>";
-        echo "<input type='file' name='file'>";
-        echo "<input type='hidden' name='assignment_id' value='" . $id . "'>";
-        echo "<button type='submit' name='submit'>Upload</button>";
-        echo "</form>";
+        $body = $body . "<form action='detailAssignment.php' method='post' enctype='multipart/form-data'>";
+        $body = $body . "<input type='file' name='file'>";
+        $body = $body . "<input type='hidden' name='assignment_id' value='" . $id . "'>";
+        $body = $body . "<button type='submit' name='submit'>Upload</button>";
+        $body = $body . "</form>";
     }
+    echo $body;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

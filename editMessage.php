@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
         if (edit_message($curUser['id'], $_POST['id'], $_POST['message'])) {
-            header("Location: chatBox.php?username=" . $_POST['id_user']);
+            header("Location: chatBox.php?id=" . $_POST['id_user']);
         } else {
             echo "Error editing message";
         }

@@ -6,7 +6,7 @@ if ($curUser === null) {
     exit();
 }
 //button to login
-echo "<a href='login.php'>Logout</a><br>------------------------<br>";
+echo "<a href='logout.php'>Logout</a><br>------------------------<br>";
 //button to assignment
 echo "<a href='assignment.php'>Assignment</a><br>------------------------<br>";
 //button to riddle

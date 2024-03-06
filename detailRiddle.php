@@ -35,15 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $answer = hash('sha256', $teacher . $title . $fileName) . ".txt";
     if(check_riddle_submission($answer, $_POST['id'])) {
+        $jwt = createJWT(array("id" => $answer, "time" => time()));
+        setcookie('jwt_' . str_replace('.', '_', $answer), $jwt, time() + 3600, "/download.php", "", true, true);
+        echo "<a href='riddle.php'>Back</a><br>";
         echo "Your answer is correct<br>";
-        //show the file
-        $file = STORAGE_DIR . $answer;
-        if (file_exists($file)) {
-            echo "<a href='" . $file . "'>Download</a>";
-        }
-        else {
-            echo "File not found";
-        }
+        echo "<a href='". "download.php?id=" . $answer . "'>Download</a><br>";
         exit();
     }
     else {

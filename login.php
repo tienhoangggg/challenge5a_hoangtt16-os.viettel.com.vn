@@ -1,5 +1,6 @@
 <?php
 require_once("database.php");
+require_once("verifyJWT.php");
 // phương thức GET, trả về form để đăng nhập
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "<form method='post' action='login.php'>";
@@ -17,16 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Kiểm tra thông tin đăng nhập
     $id = check_login($username, $password);
     if ($id != -1) {
-        //tạo JWT token và gắn vào cookie
-        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
-        $payload = json_encode(['id' => $id]);
-        $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
-        $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
-        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, JWT_key, true);
-        $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
-        $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+        //tạo JWT token và gắn vào cookie (id ad time)
+        $jwt = createJWT(array("id" => $id, "time" => time()));
+        //setcookie(name, value, expire, path, domain, secure, httponly);
         //chỉ sử dụng khi giao thức là https
-        setcookie('jwt', $jwt, 0, '/', '', true, true);
+        setcookie('jwt', $jwt, time() + 7200, '/', '', true, true);
         // Chuyển hướng về trang chủ
         header("Location: index.php");
         exit();
