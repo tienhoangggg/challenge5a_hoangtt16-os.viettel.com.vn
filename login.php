@@ -21,8 +21,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //tạo JWT token và gắn vào cookie (id ad time)
         $jwt = createJWT(array("id" => $id, "time" => time()));
         //setcookie(name, value, expire, path, domain, secure, httponly);
-        //chỉ sử dụng khi giao thức là https
-        setcookie('jwt', $jwt, time() + 7200, '/', '', true, true);
+        //chỉ sử dụng khi giao thức là https, same-site là strict
+        setcookie("jwt", $jwt, [
+            "expires" => time() + 3600,
+            "path" => "/",
+            "domain" => "",
+            "secure" => true,
+            "httponly" => true,
+            "samesite" => "Strict"
+        ]);
         // Chuyển hướng về trang chủ
         header("Location: index.php");
         exit();
